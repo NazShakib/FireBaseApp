@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <group android:checkableBehavior="single">
+    <item android:title="HOME"
+          android:id="@+id/userHome"
+          android:icon="@drawable/home"/>
+
+        <item android:title="PROFILE"
+            android:id="@+id/userProfile"
+            android:icon="@drawable/profile"/>
+
+        <item android:title="UPDATE PROFILE"
+            android:id="@+id/UserProfileUpdate"
+            android:icon="@drawable/profile_update"/>
+
+        <item android:title="MY CV UPLOAD"
+            android:id="@+id/userCV"
+            android:icon="@drawable/cv_upload"/>
+
+    </group>
+
+    <item android:title="Sub Headder">
+
+        <menu>
+
+            <item android:id="@+id/allMail"
+                 android:icon="@drawable/allmail"
+                android:title="All Mail"/>
+
+            <item android:id="@+id/trash"
+                android:icon="@drawable/trash"
+                android:title="Trash"/>
+
+            <item android:id="@+id/spam"
+                android:icon="@drawable/spam"
+                android:title="Spam"/>
+
+        </menu>
+
+
+
+    </item>
+
+
+</menu>

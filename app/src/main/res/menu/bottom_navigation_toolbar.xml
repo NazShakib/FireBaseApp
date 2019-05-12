@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+   <item android:id="@+id/home"
+        android:icon="@drawable/home"
+        android:title="Home"/>
+
+    <item android:id="@+id/full_time"
+        android:title="Full-Time"
+        android:icon="@drawable/full_time_job"
+        />
+
+    <item android:id="@+id/part_time"
+        android:title="Part-time"
+        android:icon="@drawable/half_time_job"/>
+
+    <item android:id="@+id/fav_job"
+        android:title="Favorite job"
+        android:icon="@drawable/fav_job"/>
+
+    <item android:id="@+id/appliedJob"
+        android:title="Applied Job"
+        android:icon="@drawable/applied_job"/>
+
+</menu>
