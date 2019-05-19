@@ -152,4 +152,5 @@ public class homeBottomNav extends Fragment {
     public RecyclerView getRecyclerView() {
         return recyclerView;
     }
+
 }

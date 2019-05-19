@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -52,9 +53,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private partTimeJobs partTimeJobs;
     private appliedJobs appliedJobs;
 
-    private List<String> SUGGESTIONS =
-            Arrays.asList(new String[]{"WEB DEVELOPER", "APPS DEVELOPERS", "IOS DEVELOPERS",
-                    "IT MANAGER", "SENIOR OFFICERS", "LECTURER"});
+
+    private List<jobInfo> mysobInfo;
+
+    private static String[] SUGGESTIONS = new String[] {"Web",
+            "Web Developer","Web developer Royalty BD","Royalty BD",
+            "Associate Professor","Computer Science and Engineering",
+            "System Engineer","Software QA Engineer","Head of Loan Recovery","FVP-VP",
+            "Collection Executive","City Bank","Executive-Human Resources","Relationship Officer",
+            "Security Officer","Pattern Sewing Machine","Quality Manager","Product Manager","Area Sales Manager",
+            "Chief of Security","Marketing"};
 
      private Login login;
 
@@ -91,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 favoriteJobList = new favoriteJobList(MainActivity.this);
                 partTimeJobs = new partTimeJobs(MainActivity.this);
                 appliedJobs = new appliedJobs(MainActivity.this);
+
             } catch (Exception e) {
                 Log.e(TAG, "onCreate: " + e.toString());
             }
@@ -106,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             bottomNavigationBar();
             loadFragment(honme);
             searchViewToolbar();
+
+
         }
 
     }
@@ -113,12 +124,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void searchViewToolbar() {
 
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,SUGGESTIONS);
+
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query)
             {
                 String userInfo = query.toLowerCase();
-                List<jobInfo> mysobInfo = new ArrayList<>();
+                mysobInfo = new ArrayList<>();
 
                 List<jobInfo> jobList  =honme.getJobList();
                 int position =0;
@@ -148,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 honme.getRecyclerView().setAdapter(recyclerViewAdapter);
                 if (m)
                 {
-                    Toasty.success(MainActivity.this,"Search "+query+" Successfully",Toasty.LENGTH_SHORT).show();
+                    Toasty.success(MainActivity.this,"Item Found",Toasty.LENGTH_SHORT).show();
                 }
                 return true;
             }
@@ -157,24 +170,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                String userInfo = newText.toLowerCase();
-               List<jobInfo> mysobInfo = new ArrayList<>();
 
-               List<jobInfo> jobList  =honme.getJobList();
 
-                int position =0;
-                for (jobInfo jobs: jobList)
-                {
-                    if(jobs.getTitle().toLowerCase().contains(userInfo)
-                            || jobs.getCompanyName().toLowerCase().contains(userInfo)
-                    || jobs.getExperienceTime().toLowerCase().contains(userInfo)
-                    || jobs.getJobNature().toLowerCase().contains(userInfo))
-                    {
-                        mysobInfo.add(jobList.get(position));
-                    }
-                    position++;
-                }
-                honme.getRecyclerViewAdapter().updateJobInfo(mysobInfo);
+                searchView.setSuggestions(SUGGESTIONS);
                 return true;
             }
         });
@@ -187,6 +185,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onSearchViewClosed() {
+
+                mysobInfo = new ArrayList<>();
+                List<jobInfo> jobList  =honme.getJobList();
+                int position = 0;
+                for (jobInfo jobs: jobList)
+                {
+                    mysobInfo.add(jobList.get(position));
+                    position++;
+                }
+
+                RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(MainActivity.this, mysobInfo);
+                recyclerViewAdapter.notifyDataSetChanged();
+                honme.getRecyclerView().setAdapter(recyclerViewAdapter);
 
             }
         });
