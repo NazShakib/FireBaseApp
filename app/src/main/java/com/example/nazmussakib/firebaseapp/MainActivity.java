@@ -1,7 +1,9 @@
 package com.example.nazmussakib.firebaseapp;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
@@ -54,51 +56,57 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Arrays.asList(new String[]{"WEB DEVELOPER", "APPS DEVELOPERS", "IOS DEVELOPERS",
                     "IT MANAGER", "SENIOR OFFICERS", "LECTURER"});
 
-
+     private Login login;
 
     private static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        login = new Login();
+
         if(!isOnline())
         {
             Toasty.error(MainActivity.this,"No Network Connection",Toasty.LENGTH_SHORT).show();
 
         }
-        toolbar = findViewById(R.id.toolbar);
-        drawerLayout = findViewById(R.id.drawerId);
-        navigationView = findViewById(R.id.navigationView);
-        bottomNavigation = findViewById(R.id.bottom_navigation);
-        searchView = findViewById(R.id.search_view);
-        toolbar.setTitle("Job Portal");
-        setSupportActionBar(toolbar);
-   try {
-       honme = new homeBottomNav(MainActivity.this);
-       fullTimeJob = new fullTimeJob(MainActivity.this);
-       favoriteJobList = new favoriteJobList(MainActivity.this);
-       partTimeJobs = new partTimeJobs(MainActivity.this);
-       appliedJobs = new appliedJobs(MainActivity.this);
-   }
-   catch (Exception e)
-   {
-       Log.e(TAG, "onCreate: "+e.toString());
-   }
-        try {
-            toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer);
-            drawerLayout.addDrawerListener(toggle);
-            toggle.syncState();
-        }
-        catch (Exception e)
+        if(!login.userLogedIn)
         {
-            Log.e(TAG,e.toString());
+            Toasty.error(this,"Please Login First",Toasty.LENGTH_SHORT).show();
+            startActivity(new Intent(this,Login.class));
+            finish();
         }
+        else {
+            toolbar = findViewById(R.id.toolbar);
+            drawerLayout = findViewById(R.id.drawerId);
+            navigationView = findViewById(R.id.navigationView);
+            bottomNavigation = findViewById(R.id.bottom_navigation);
+            searchView = findViewById(R.id.search_view);
+            toolbar.setTitle("Job Portal");
+            setSupportActionBar(toolbar);
+            try {
+                honme = new homeBottomNav(MainActivity.this);
+                fullTimeJob = new fullTimeJob(MainActivity.this);
+                favoriteJobList = new favoriteJobList(MainActivity.this);
+                partTimeJobs = new partTimeJobs(MainActivity.this);
+                appliedJobs = new appliedJobs(MainActivity.this);
+            } catch (Exception e) {
+                Log.e(TAG, "onCreate: " + e.toString());
+            }
+            try {
+                toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer);
+                drawerLayout.addDrawerListener(toggle);
+                toggle.syncState();
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
 
-        navigationView.setNavigationItemSelectedListener(this);
-        bottomNavigationBar();
-        loadFragment(honme);
-        searchViewToolbar();
-
+            navigationView.setNavigationItemSelectedListener(this);
+            bottomNavigationBar();
+            loadFragment(honme);
+            searchViewToolbar();
+        }
 
     }
 

@@ -60,5 +60,17 @@ dependencies {
     implementation 'com.github.GrenderG:Toasty:1.4.2'
 
 
+
+    // Room Databse
+
+    def room_version = "1.1.1"
+
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$room_version"
+
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation "android.arch.persistence.room:guava:$room_version"
+
+
 }
 apply plugin: 'com.google.gms.google-services'
